@@ -217,6 +217,15 @@ https://ko.reactjs.org/docs/events.html
 
 A. 답변 준비중
 
+#### Q. 리액트에서 document.querySelector를 왜 쓰지 말라는 것인가?
+
+A. 답변 준비 중
+
+### Q. 리액트에서 document.querySelector를 사용하지 말라는데 그러면 엘리먼트를 어떻게 셀렉하는가 ?
+
+A. 함수에서 스테이트 변경을 감지하면 다음처럼 ref로 엘리먼트를 지정하여 스타일을 변경한다
+loadingRef.current.style.display = 'none' ;
+
 ### Q. react-fetch가 무엇인가?
 
 A. 리액트 코어팀에서 웹개발에 사용하는 fetch의 랩퍼다. 서버 컴포넌트를 설명하는 동영상에서 로렌 탄이 사용했다. 
