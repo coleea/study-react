@@ -1,6 +1,7 @@
 # React Q&A
 
-#####  Q. 리액트가 무엇인가?
+###  Q. 리액트가 무엇인가?
+
 우리는 뮤테이션을 최소화하기를 원한다.
 우리는 개념적인 단순함을 주는 무언가를 만들고 싶다.
 (we want to minimize the amount of mutation
@@ -12,32 +13,31 @@ we want to build something that gives us the conceptual simplicity)\
 -- 브라이언 커니핸 (Brian Wilson Kernighan)\
 \
 그리고 이것이 우리가 하려는 일이다\
--- Jim Sproch, 前 React Core Team\
+-- Jim Sproch (ex React Core Team)\
 \
 이것이 리액트이다\
 즉 리액트는 변이를 최소화하고 복잡성을 제거하기 위해 태어난 UI 라이브러리 이다
 
-##### Q. 리액트는 어떻게 변이를 최소화하고 복잡성을 제거하는가 ?
+### Q. 리액트는 어떻게 변이를 최소화하고 복잡성을 제거하는가 ?
+
 A. 리액트는 훅이라는 도구를 이용해서 변이를 최소화한다.\
 또한 컴포넌트라는 단위로 UI엘리먼트를 작성하는 방식으로 복잡성을 줄인다
 
-##### Q. 훅이 어떤 방식으로 처리되길래 변이가 최소화되는가 ?
+### Q. 훅이 어떤 방식으로 처리되길래 변이가 최소화되는가 ?
+
 A. 훅에서 관리하는 변수는 개발자가 직접적으로 접근할 수 없다. 즉 리액트 엔진 내부에서만 접근이 가능하다.\
 이게 무슨 말일까? useState의 예를 들어보자
+
 ```javascript
 const [number, setNumber] = useState(1)
 ```
+
 위와 같은 코드에서 우리는 number라는 값에 접근할 수 있다. 그런데 이 값은 리액트가 직접적으로 관리하는 값을 복사한 값이다. 따라서 개발자가 number 변수를 아무리 조작하더라도 실제 리액트에서 관리하는 number값에는 영향을 미치지 않는다\
 `setNumber`함수는 리액트에서 관리하는 number에 접근하기 위한 인터페이스이다. 이 인터페이스는 값을 조작할 때 메모리 영역에 값을 오버라이트 하지 않는다. 리액트 엔진은 자체적으로 변이를 최소화하는 방식으로 변수를 관리하는데 이것은 변수를 임뮤터블로 관리하기 때문이다. 즉 같은 메모리 공간에 값을 재할당하는 일이 없다
 
 ---
 
-## 기타
-
-##### Q. 함수형 컴포넌트와 클래스 컴포넌트의 렌더링 메커니즘은 다른가 ?
-
-댄(Dan Abramov)은 함수형 컴포넌트의 리랜더링 메커니즘이 클래스 컴포넌트의 그것과 동일하다고 답변했습니다.\
-`they literally use the same code.`
+##  리액트 펀더멘탈 관련
 
 ### Q. 증분 렌더링(incremental rendering)이란 무엇인가?
 
@@ -73,21 +73,11 @@ componentDidUpdate :  :  컴포넌트가 업데이트된 직후에 발생한다
 componentWillUnmount :  컴포넌트가 언마운트되기 직전에 발생한다
 componentDidUnmount :  컴포넌트가 언마운트된 직후에 발생한다
 ```
-### Q. 컴포넌트에 여러개의 옵션을 주어서 미세하게 다르게 렌더링하게 만들고 싶다. 이런경우 props가 10개가 넘어간다. 이걸 일일이 인자로 넘겨줘야 하는 상황은 너무 번거롭다. 더 간편하게 할 수 있는 방법이 있는가 ?
 
-props에 디폴트 값을 주고 변경하고 싶은 인자만 넘겨주면 되는일이다. 이 디폴트 파라메터 기능은 ES6부터 적용되었다
-
----
-
-# 해결되지 않은 질문들 모음
-
----
-
-##  일반 질문
-
-##### Q. 리컨사일(reconcile)이란 무엇인가 ?
+### Q. 리컨사일(reconcile)이란 무엇인가 ?
 
 A. 리컨사일은 두가지 가상돔을 비교하여 변화된 엘리먼트를 탐지하는 메커니즘이다\
+
 여기서 비교되는 2가지 가상돔은 각각 Current DOM이고 두번째는 Work-In-Progress DOM이다.
 `ReactDOM.render()`를 수행했을 때 최초의 실행이 아니라면 리컨사일레이션이 수행된다. 그 과정은 아래와 같다\
 `ReactDOM.render()`의 인자인 루트 컴포넌트가 호출된다. 루트 컴포넌트 함수가 호출되면 나머지 자식함수는 줄줄이 재귀호출된다. 그리고 리액트 화이버를 리턴할 텐데 이 리액트 화이바들은 전부 트리구조로 연결되어 있다. 그 최종적으로 그 트리구조가 `ReactDOM.render()`의 첫번째 인자가 된다\
@@ -107,7 +97,8 @@ A. 리컨사일은 두가지 가상돔을 비교하여 변화된 엘리먼트를
 \
 재랜더링이 완료되면 하나의 렌더링 사이클이 종료된다
 
-##### Q. 리액트 화이버란 무엇인가 ?
+### Q. 리액트 화이버란 무엇인가 ?
+
 A. 리액트 화이버란 다음의 두가지를 일컫는다\
 \
 첫째로 리액트 화이버란 새로운 리컨사일 알고리즘이다\
@@ -120,29 +111,22 @@ A. 리액트 화이버란 다음의 두가지를 일컫는다\
 \
 마지막으로 리액트 화이버는 새로운 종류의 리액트 엘리먼트를 가리킨다\
 \
-A. 또 다른 답변. 리액트 화이버는 일종의 스택 프레임으로 볼 수 있다.
-가상 스택의 각 프레임에는 리액트 화이버가 프레임을 차지한다
-가상 스택은 일반적인 스택과 같다. 다만 팝(POP)의 실행시기를 지정할 수 있다.
-다시 말해 가상 스택은 서스펜드(suspend)와 재개(resume) 명령어를 지원한다
-이는 제네레이터를 연상케 한다
-
-가상 스택 프레임을 도입한 이유는 전체 리렌더링 테스크를 여러 트랜잭션으로 나누어 프레임 단위로 UI 업데이트를 컨트롤 해야하기 때문이다
-
-리액트 화이버에서는 트랜잭션에 우선순위를 부여할 수 있다
-
-리액트 내부에서 12.3ms를 하나의 프레임 주기로 간주하고 작업의 재개와 중단을 수행하는 주체는 workLoop 함수이다.
+A. 또 다른 답변. 리액트 화이버는 일종의 스택 프레임으로 볼 수 있다.\
+가상 스택의 각 프레임에는 리액트 화이버가 프레임을 차지한다\
+가상 스택은 일반적인 스택과 같다. 다만 팝(POP)의 실행시기를 지정할 수 있다.\
+다시 말해 가상 스택은 서스펜드(suspend)와 재개(resume) 명령어를 지원한다\
+이는 제네레이터를 연상케 한다\
+\
+가상 스택 프레임을 도입한 이유는 전체 리렌더링 테스크를 여러 트랜잭션으로 나누어 프레임 단위로 UI 업데이트를 컨트롤 해야하기 때문이다\
+\
+리액트 화이버에서는 트랜잭션에 우선순위를 부여할 수 있다\
+\
+리액트 내부에서 12.3ms를 하나의 프레임 주기로 간주하고 작업의 재개와 중단을 수행하는 주체는 workLoop 함수이다.\
 이 함수는 루프를 돌며 마감시간이 다가올 때 까지 반복한다
-
-
-##### 컴포넌트가 리랜더링 되는 조건이 구체적으로 어떻게 되는가 ?
-
-props나 상태의 변화가 감지되면 결국 재랜더링으로 이루어진다는데 .. 사실 상태가 바뀌던 말던 재랜더링에는 영향을 미치지 않는 것이 아닌가 ? 재랜더링에 영향을 주는 요소는 오로지 함수컴포넌트의 리턴값이 기존의 값과 같으냐 다르냐 뿐이다
 
 ---
 
-### 리액트 컴포넌트
-
-### 리액트 컴포넌트 관련
+## 리액트 컴포넌트 관련
 
 ### Q. 렌더리스 컴포넌트(renderless component)란 무엇인가?
 
@@ -163,14 +147,6 @@ props나 상태의 변화가 감지되면 결국 재랜더링으로 이루어진
 \
 [공식링크](https://ko.reactjs.org/docs/fragments.html)
 
-### 폼 컨트롤러
-
-### 포믹 (formik)이란 ?
-참고 : https://formik.org/docs/overview
-
-### react hook form
-참고 : https://react-hook-form.com/
-
 ### Q. 프로파일러 (profiler) 컴포넌트가 무엇인가 ?
 
 프로파일러 컴포넌트는 일종의 랩퍼 컴포넌트인데 이는 자식 컴포넌트의 렌더링 코스트를 계산한다\
@@ -186,35 +162,67 @@ props나 상태의 변화가 감지되면 결국 재랜더링으로 이루어진
 
 ### Q. 리액트 블럭 (React.block)이 무엇인가 ?
 
-워커 스레드가 메인스레드를 방해해서는 안된다. 그걸 위해서 리액트 블럭이 생겨났다\
-\
-리액트 블럭은 코드와 데이터를 동시에 로드하는 메커니즘입니다\
--- dan\
-https://github.com/facebook/react/issues/17413\
-\
-dan이 말한다\
-\
-I don’t see relation to “VDOM” here. Or any difference between insertion/deletion/updates.\
-The point is just that if your re-render, for one reason or another, includes hundreds of components, their code needs to run.\
-Their code is arbitrary. We want it to not block the thread.\
-We want it to not block the thread.\
-이건 한마디로 메인스레드를 보호하자는 취지이다
+A. 잠깐 거론되다가 정식으로 채택된 개념은 아닌것으로 보인다. 신경꺼도 될것 같음
+https://github.com/facebook/react/issues/17413/ 이 링크에서 잠깐 등장한다
+
+
+## 폼 컨트롤러 관련
+
+### Q. 포믹 (formik)이 무엇인가 ?
+
+참고 : https://formik.org/docs/overview
+
+### Q. react hook form이 무엇인가?
+
+참고 : https://react-hook-form.com/
+
+#### Q. react-final-form같은 것을 왜 쓰는가? 이건 blitz의 기본 폼 라이브러리인데 이걸 쓰고 안쓰고하고 어떤 차이가 있는가?
+
+A. 잘 모르겠다. 상세는 https://final-form.org/docs/react-final-form/getting-started를 참조하시오
+(React Final Form is a thin React wrapper for Final Form, which is a subscriptions-based form state management library that uses the Observer pattern, so only the components that need updating are re-rendered as the form's state changes.)
+
+#### Q. 구독 기반의 폼 상태 관리자? 구독이 왜 필요한 거지?
+A. 폼의 상태가 업데이트가 변하면 자동으로 업데이트를 해주나 보다.
+폼이라는게 꼭 SUBMIT할 필요는 없지 않은가?
+동영상 강좌는 https://www.youtube.com/watch?v=QpmF1oBCC4c
+를 참조하시오
 
 ---
 
-# 기타
+## 기타
 
-#### 리액트 컴포넌트에 key 어트리뷰트는 왜 기입하는가?
-참고 : https://stackoverflow.com/questions/45981597/how-does-react-key-works
+### Q. 함수형 컴포넌트와 클래스 컴포넌트의 렌더링 메커니즘은 다른가 ?
 
-##### Q. 리액트에서 합성 이벤트란 무엇인가?
+A. 댄(Dan Abramov)은 함수형 컴포넌트의 리랜더링 메커니즘이 클래스 컴포넌트의 그것과 동일하다고 답변했습니다.\
+`they literally use the same code.`
+
+### Q. 컴포넌트가 리랜더링 되는 조건이 구체적으로 어떻게 되는가 ?
+
+A. props나 상태의 변화가 감지되면 결국 재랜더링으로 이루어진다는데 .. 사실 상태가 바뀌던 말던 재랜더링에는 영향을 미치지 않는 것이 아닌가 ? 재랜더링에 영향을 주는 요소는 오로지 함수컴포넌트의 리턴값이 기존의 값과 같으냐 다르냐 뿐이다
+
+### Q. 컴포넌트에 여러개의 옵션을 주어서 미세하게 다르게 렌더링하게 만들고 싶다. 이런경우 props가 10개가 넘어간다. 이걸 일일이 인자로 넘겨줘야 하는 상황은 너무 번거롭다. 더 간편하게 할 수 있는 방법이 있는가 ?
+
+A. props에 디폴트 값을 주고 변경하고 싶은 인자만 넘겨주면 되는일이다. 이 디폴트 파라메터 기능은 ES6부터 적용되었다
+
+### Q. 리액트 컴포넌트에 key 어트리뷰트는 왜 기입하는가?
+
+A. 참고 : https://stackoverflow.com/questions/45981597/how-does-react-key-works
+
+### Q. 리액트에서 합성 이벤트란 무엇인가?
+
 A. `합성`이라는 용어는 일종의 정규화 작업으로 해석할 수 있다. 합성 이벤트는 브라우저 고유 이벤트에 직접 대응되지 않으며 리액트가 지정한 이벤트를 수행한다
 https://ko.reactjs.org/docs/events.html
 
-##### Q. 가상돔이 더블 버퍼링을 위해 수행된다는 게 무슨 뜻인가 ?
+### Q. 가상돔이 더블 버퍼링을 위해 수행된다는 게 무슨 뜻인가 ?
 
-### react-fetch
-자료가 없음
+A. 답변 준비중
 
-### Q. 증분형 돔(incremental DOM)이란 무엇인가?
-증분형 돔은 리액트에서 고안된 개념은 아니다. 증분형 돔은 앵귤러에서 관리하는 돔이다
+### Q. react-fetch가 무엇인가?
+
+A. 리액트 코어팀에서 웹개발에 사용하는 fetch의 랩퍼다. 서버 컴포넌트를 설명하는 동영상에서 로렌 탄이 사용했다. 
+상세는 https://www.youtube.com/watch?v=TQQPAU21ZUw 를 참조하시오
+그 외의 자료는 없는것으로 보임
+
+### Q. 증분형 돔(incremental DOM)이 무엇인가?
+
+A. 증분형 돔은 리액트에서 고안된 개념은 아니다. 증분형 돔은 앵귤러에서 관리하는 돔이다
