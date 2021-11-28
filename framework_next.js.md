@@ -1,5 +1,12 @@
 # nextjs 관련 정리내용
 
+#### Q. next.js에서 캐싱을 한다는데 캐싱을 어떻게 하는가 ?
+
+A. /_next/static 폴더에 보관된 이미지, 미디어 파일등 변경할 수 없는 자산에 캐싱 헤더를 자동으로 추가한다
+`Cache-Control: public, max-age=31536000, immutable`
+
+상세는 https://nextjs.org/docs/going-to-production#caching 를 참조하시오
+
 #### Q. .env파일을 어떻게 불러올 수 있는가?
 
 A. node.js에서 제공하는 모듈을 사용해야 한다\
