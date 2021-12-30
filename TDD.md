@@ -1,6 +1,4 @@
-# 이 문서는 작성중입니다
-
-## 테스트 관련
+## 테스트 관련 Q&A
 
 ### Q. 테스트가 무엇인가?
 
@@ -56,10 +54,7 @@ slowMo 옵션은 특정 동작을 수행할 때 지정한 시간만큼 지연시
 ### Q. 행위 기반 개발 (Behaviour-Driven Development,BDD)이란 무엇인가?
 
 BDD는 TDD에 기반을 두고 있다. 하지만 BDD는 함수 단위로 테스트가 진행되지 않는다
-
-### Q. cucumber.js란 무엇인가?
-
-cucumber.js는 BDD를 수행하는 라이브러리다
+cucumber.js는 대표적인 BDD를 라이브러리다
 
 ### Q. react testing library가 무엇인가? 
 
@@ -71,17 +66,8 @@ https://testing-library.com/docs/react-testing-library/intro/
 
 #### Q. 리액트 16이하에서 엔자임을 썻다는 말은 16버전에서는 엔자임을 사용하지 않는다는 뜻인가? 그러면 엔자임이 진화해서 리액트 테스팅 라이브러리가 된 것인가? 
 
-A. 리액트 16에서 엔자임을 쓸 수는 있다. 다만 리액트 테스팅 라이브러리가 더 좋으니까 상대적으로 사장된것 뿐이다
-대부분의 사용 사례에서 나는 react-testing-library를 선호합니다. 주로 EXPORTED API가 컴포넌트의 내부 API를 사용하는 것을 허용하지 않아 더 나은 테스트를 작성해야 하기 때문입니다. 
-its exported APIs do not allow you to use a component’s internal API
-또한 ZERO CONFIGURATION
-
-반면에 Enzyme을 사용하면 "수명 주기 메서드" 또는 "상태를 포함할 수 있는 구성 요소의 내부 API"를 사용할 수 있습니다.
-
-나는 많은 프로젝트에서 Enzyme과 react-testing-libraries를 모두 사용했습니다. 그러나 나는 react-testing-library가 일을 더 쉽게 만든다는 것을 종종 발견했습니다.
-
-출처 https://blog.logrocket.com/comparing-react-testing-libraries/
-
+A. 리액트 16에서 엔자임을 쓸 수는 있다. 다만 리액트 테스팅 라이브러리가 일반적으로 더 선호되므로 상대적으로 시장에서 사장된것 뿐이다\
+리액트 테스팅 라이브러리는 설정이 필요 없다(ZERO CONFIGURATION)는 점도 인기몰이에 한몫 했다\
 #### Q. 유닛 테스트와 컴포넌트 테스트는 다른 개념인가 ?
 
 A. 다른거 같다. 유닛 테스트는 함수를 테스트하는 개념이고 컴포넌트 테스트는 리액트의 컴포넌트가 제대로 작동하는지를 테스트하는 개념이다
@@ -95,14 +81,15 @@ A. testing-library를 소객하는 페이지이다. 우수 테스트 관행을 �
 A. 그런게 문제이기 때문에 react-testing library를 쓴다고 한다
 
 #### Q. react testing library와 puppeteer 중에서 뭐가 더 좋은가?
-A. 일단 퍼핏티어는 테스팅 프레임워크가 아니다. 실제 브라우저에서 실행하는 테스트를 종단 간 테스트라고 한다
 
+A. 일단 퍼핏티어는 테스팅 프레임워크가 아니다. 실제 브라우저에서 실행하는 테스트를 종단 간 테스트라고 한다\
+\
 상세는 아래를 참조하시오
 https://blog.logrocket.com/comparing-react-testing-libraries/
 
 #### Q. React Testing Library를 배워보고 싶은데 무엇을 참조하면 좋은가?
 
-A.https://www.youtube.com/watch?v=JKOwJUM4_RM
+A. [이 동영상](https://www.youtube.com/watch?v=JKOwJUM4_RM)은 훌륭한 튜토리얼을 제공한다 
 
 #### Q. ReactTestUtils와 리액트 테스팅 라이브러리는 다른 개념인가?
 
@@ -125,13 +112,12 @@ A. 자동화 된 테스트를 줄여서 그냥 자동화라고 하는것같다\
 
 #### Q. 사이프레스(Cypress)가 뭔가?
 
-A. js용 엔드 투 엔드 테스팅 툴이다\
-퍼핏티어하고 비슷한 개념이다
+A. js용 엔드 투 엔드(end-to-end) 테스팅 툴이다\
+실제 브라우징 환경에서 유저가 페이지를 이용하는 것과 가장 유사한 형태의 테스트를 수행하는 툴이다\
+퍼핏티어하고 비슷한 개념이다\
 
 #### Q. 사이프레스와 퍼핏티어는 뭐가 다른가?
 
-A. 차이가 별로 없다. 퍼핏티어 보다는 사이프레스를 많이 쓰는것 같다\
-사이프레스가 더 안정적이라는 의견이 지배적이다\
-퍼핏티어는 때때로 클릭이 발생하지 않고 테스트 시간이 초과된다\
-
-# 이 문서는 작성중입니다
+A. end-to-end 테스팅 툴이라는 점에서는 차이가 없다\
+다만 사이프레스가 더 안정적으로 사용할 수 있는 툴이라는 의견이 지배적이다\
+퍼핏티어는 때때로 클릭이 발생하지 않고 테스트 시간이 초과되는 등 의도치 않은 동작이 발생한다\

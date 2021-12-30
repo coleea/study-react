@@ -1,4 +1,4 @@
-# 이 문서는 작성중입니다
+# 상태관리 관련 Q&A
 
 #### Q. 플럭스(flux) 아키텍처가 뭔가?
 
@@ -43,6 +43,149 @@ A. 먼저 상태머신을 만든다\
 이후에는 이 상태머신에 상태를 보내주면 된다.\
 상태머신이 특정 상태로 변한 것을 감지하면 해당 상태와 연결된 콜백함수를 호출한다\
 이 상태전환을 토글이라고 한다. 즉 토글되면 변경된 상태와 관련된 콜백이 호출된다\
+
+### 리덕스란 무엇인가 ?
+
+리덕스의 모든 작업은 디스패처를 통해서만 이루어진다. 즉 모든 변화는 단일한 게이트 키퍼인 디스패처를 반드시 통과해야 한다.
+
+리덕스는 flux와 elm아키텍처를 혼용하여 제작되었다.
+
+dan이 말하길, 이것을 도입한 이유는 flux 아키텍처를 수정하면 핫 리로딩과 타임 트래블을 구현할 수 있지 않을까? 하는 가설을 입증하기 위하여 고안되었다.
+
+다시 말해 거시적인 그림은 flux아키텍처와 큰 차이가 ㅇ ㅓㅄ다.
+
+dan이 말하길,  redux is just an event emitter. a change emitter holding a value
+
+이벤트 emitter는 상태변경이라는 이벤트를 emit하여 스케줄러에 전달한다.
+
+### 그러면 flux란 무엇인가 ?
+
+페북 개발자가 말하길 , flux는 making interactions easier to reason about 때문에 만들었다고 한다
+
+### 그래프큐엘 (GraphQL)
+
+그래프큐엘은 하나의 문제에서 출발한다. 바로 REST API가 가진 문제점이다.\
+레스트 API는 문제가 있었다. `The Big problem was a lack of modularity` 였다. 그래프큐엘은 모듈화를 가능케 한 것으로 추정된다. 무엇에 대한 모듈화인지는 모르겠지만 .. 아무튼 코어 컨셉은 반응의 형태를 구조적 형태로 구성할 수 있다는 점이다. 구조적인 형태는 트리 구조를 표현할 수 있다는 뜻이다.\
+트리구조로 데이터를 모듈화 할 수 있다고 한다. 그런데 이게 왜 좋은가 ? 컴포넌트 단윈로 필요한 데이터를 모듈화하여 불필요한 정보를 요청하지 않아도 된다는 이점이 있다는데 불필요한 정보의 요청은 레스트 api를 사용해도 피할 수 있지 않은가 ?
+
+### react-query
+
+리액트 쿼리란 `전역상태를 터치하지 않는다(without touching any global state)`라는 슬로건을 가진 리액트 훅이다\
+\
+말 그대로 전역 스테이트를 건드리지 않은 상태에서 페치(fetch)를 수월하게 해주는 솔루션을 제공한다\
+\
+즉 리액트 쿼리의 지향점은 재사용 가능한 단일 리액트 컴포넌트로서의 아이솔레이션 기능을 유지하면서 fetch를 통한 최신의 상태를 손쉽게 유지하는 것이다.\
+\
+리액트 쿼리는 swr과 그 지향점이 유사하다. 그러니 굳이 swr을 사용할 줄 안다면 리액트 쿼리를 사용할 필요는 없을 것으로 보인다
+
+[공식링크](https://react-query.tanstack.com/)
+
+### swr
+
+swr은 페치(fetch)하는 로직을 더 간단하게 도와주는 훅이다.\
+\
+페치하는 로직을 간단하게 해준다는 말이 애매할 수 있다. 예를 들어 데이터를 가져오기 전에 UI에 로딩이라고 적어두고 싶다.\
+\
+그리고 나서 페치가 완료되면 받아온 데이터를 기반으로 UI를 다시 그리고 싶다.\
+\
+이렇게 하려면 보통 하나의 상태를 만들어서 상태값이 `로딩`일 때는 로딩 컴포넌트를 렌더링하고 상태가 `응답완료`일 때는 받아온 데이터를 기반으로 렌더링한다.\
+\
+이건 구현 난이도가 어려운 건 아니지만 번거롭다. 반면 useSWR훅을 사용하면 일일이 상태를 변경할 필요 없이 직관적으로 구현할 수 있다.\
+\
+가령 아래와 같다
+
+```javascript
+ function App() {
+
+  const { data, error } = useSWR(
+    "https://api.github.com/repos/vercel/swr",
+    fetcher
+  );
+
+  if (error) return "error";
+  if (!data) return "Loading..";
+  return (
+    <>
+      <h1>{data.name}</h1>
+    </>
+  );
+}
+```
+
+위의 예제는 직관적이다. 이 컴포넌트는 서버에서 데이터를 받아오고 받아오는 동안은 로딩을 출력한다.\
+\
+받아온 뒤에는 데이터를 출력한다. 이걸 구현하는 과정에서 어떠한 상태도 사용하지 않았다. 그저 useSWR이 리턴하는 두개의 변수를 사용했을 뿐이다.\
+\
+swr은 이 외에도 두가지 기능을 추가로 더 제공한다 유저 인증과 게시판 로딩이다.\
+\
+먼저 유저 인증을 살펴보자. 해당 코드는 [여기](https://swr.vercel.app/examples/auth)에 있다.\
+\
+[swr에 대한 더 자세한 내용은 이 동영상](https://www.youtube.com/watch?v=F1o_0umlXbU)을 참조할 것
+
+[swr 공식링크](https://swr.vercel.app/examples/basic)
+
+###  Q. react-relay가 무엇인가?
+
+`react-relay`는 클라이언트가 사용하는 그래프큐엘 훅이다\
+\
+그래프큐엘 기반의 데이터 페칭을 쉽게 관리할 수 있게 해준다\
+\
+릴레이는 빠른 속도와 편리한 사용방법이라는 두가지 장점을 모토로 한다\
+\
+하지만 릴레이 공식 웹페이지에서 제공하는 가장 간단한 예제를 살펴보면 사용법이 편리하다는 생각은 들기 어려울 것이다\
+\
+실제 예제를 살펴보자. 다음은 `usePreloadedQuery` 훅의 간단한 예제이다
+
+```javascript
+
+const relayEnvironment = new Environment({
+  network: Network.create(커스텀_fetch함수),
+  store: new Store(new RecordSource(), {
+    gcReleaseBufferSize: 10
+  })
+});
+
+const queryRef = loadQuery(
+  relayEnvironment,
+  TodoAppQuery.default,
+  {userId: "me"}
+) ;
+
+const todoQuery =  graphql`
+  query TodoAppQuery($userId: String!) {
+    user(id: $userId) {
+      id
+      totalCount
+      ...TodoListFooter_user
+      ...TodoList_user
+    }
+  }
+`
+
+const data = usePreloadedQuery(
+  todoQuery,
+  queryRef
+);
+```
+
+usePreloadedQuery훅은 그 이름의 의미하는 것 처럼 데이터를 미리 로드하는 기능을 제공한다.\
+\
+usePreloadedQuery훅은 두개의 인자를 받는다. 첫째는 그래프큐엘 기반의 쿼리 스트링인데 쿼리스트링을 인자로 받는것까지는 직관적이고 이해하기 쉽다.\
+\
+문제는 두번째 인자다. 두번째 인자는 loadQuery함수로 생성된 queryRef를 받는다.
+
+### 이 문서는 작성중입니다
+
+[relay 홈페이지](https://relay.dev/)
+
+
+##### context 컴포넌트
+
+컨텍스트 컴포넌트는 `상태 끌어올리기(lift state up)`를 위한 솔루션이다\
+두개의 컴포넌트가 부모-자식 관계가 아닌 상태에서 데이터를 공유할 때 공통의 조상에게 데이터를 위임하여 그 조상으로부터 데이터를 넘겨받는 패턴이다. 이 때 데이터를 가진 조상 컴포넌트는 최소 공통 조상에게 넘겨주는게 관례이다. 그 이유는 퍼포먼스 때문인데 컨텍스트 API가 루트 컴포넌트에 가깝게 위로 올라갈수록 렌더링 속도의 저하 문제가 있기 때문이다\
+컨텍스트 API를 적용했다면 스테이트가 변경된 경우 이 스테이트를 렌더링하는 모든 컴포넌트가 재랜더링된다
+
+[lift state up 참고](https://ko.reactjs.org/docs/lifting-state-up.html)
 
 # 리코일 Q&A
 
@@ -111,3 +254,4 @@ A. 위에서 말했듯 두가지 컨셉으로 복잡성을 줄였다
 # 이 문서는 작성중입니다
 
 ---
+

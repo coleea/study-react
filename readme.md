@@ -1,4 +1,24 @@
-# React Q&A
+# 리액트(React) Q&A
+
+
+### 훅(hook) 관련 Q&A
+- [여기 링크](./hook.md)를 참조하시오
+
+### css 패턴관련 Q&A
+- [여기 링크](./css_패턴.md)를 참조하시오
+
+### 리액트 18 관련 Q&A
+- [여기 링크](./react_18.md)를 참조하시오
+
+### 테스트 주도 개발(TDD) 관련 Q&A
+
+- [여기 링크](./TDD.md)를 참조하시오
+
+
+### 상태관리 관련 Q&A
+
+- [여기 링크](./state_management.md)를 참조하시오
+
 
 ###  Q. 리액트가 무엇인가?
 
@@ -165,28 +185,6 @@ A. 또 다른 답변. 리액트 화이버는 일종의 스택 프레임으로 �
 A. 잠깐 거론되다가 정식으로 채택된 개념은 아닌것으로 보인다. 신경꺼도 될것 같음
 https://github.com/facebook/react/issues/17413/ 이 링크에서 잠깐 등장한다
 
-
-## 폼 컨트롤러 관련
-
-### Q. 포믹 (formik)이 무엇인가 ?
-
-참고 : https://formik.org/docs/overview
-
-### Q. react hook form이 무엇인가?
-
-참고 : https://react-hook-form.com/
-
-#### Q. react-final-form같은 것을 왜 쓰는가? 이건 blitz의 기본 폼 라이브러리인데 이걸 쓰고 안쓰고하고 어떤 차이가 있는가?
-
-A. 잘 모르겠다. 상세는 https://final-form.org/docs/react-final-form/getting-started를 참조하시오
-(React Final Form is a thin React wrapper for Final Form, which is a subscriptions-based form state management library that uses the Observer pattern, so only the components that need updating are re-rendered as the form's state changes.)
-
-#### Q. 구독 기반의 폼 상태 관리자? 구독이 왜 필요한 거지?
-A. 폼의 상태가 업데이트가 변하면 자동으로 업데이트를 해주나 보다.
-폼이라는게 꼭 SUBMIT할 필요는 없지 않은가?
-동영상 강좌는 https://www.youtube.com/watch?v=QpmF1oBCC4c
-를 참조하시오
-
 ---
 
 ## 기타
@@ -213,13 +211,7 @@ A. 참고 : https://stackoverflow.com/questions/45981597/how-does-react-key-work
 A. `합성`이라는 용어는 일종의 정규화 작업으로 해석할 수 있다. 합성 이벤트는 브라우저 고유 이벤트에 직접 대응되지 않으며 리액트가 지정한 이벤트를 수행한다
 https://ko.reactjs.org/docs/events.html
 
-### Q. 가상돔이 더블 버퍼링을 위해 수행된다는 게 무슨 뜻인가 ?
 
-A. 답변 준비중
-
-#### Q. 리액트에서 document.querySelector를 왜 쓰지 말라는 것인가?
-
-A. 답변 준비 중
 
 ### Q. 리액트에서 document.querySelector를 사용하지 말라는데 그러면 엘리먼트를 어떻게 셀렉하는가 ?
 
@@ -235,6 +227,3 @@ A. 리액트 코어팀에서 웹개발에 사용하는 fetch의 랩퍼다. 서�
 ### Q. 증분형 돔(incremental DOM)이 무엇인가?
 
 A. 증분형 돔은 리액트에서 고안된 개념은 아니다. 증분형 돔은 앵귤러에서 관리하는 돔이다
-
-#### Q.  리액트등의 UI 라이브러리에서 하이드레이션 타임을 최소화할 수 있는 방법이 있는가 ?
-A. 서버 컴포넌트를 사용하시오
