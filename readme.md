@@ -1,5 +1,6 @@
-# 리액트(React) Q&A
+<img src="./img/react_logo.png" alt="drawing" width="200"/>
 
+# 리액트(React) Q&A
 
 ### 훅(hook) 관련 Q&A
 - [여기 링크](./hook.md)를 참조하시오
