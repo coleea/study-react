@@ -1,4 +1,4 @@
-<img src="./img/react_logo.png" alt="drawing" width="200"/>
+<img src="./img/react_logo.png" alt="drawing" width="400"/>
 
 # 리액트(React) Q&A
 
