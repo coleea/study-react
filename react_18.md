@@ -1,22 +1,21 @@
-
 ## 리액트 18 관련 Q&A
 
-### 컨커런트 모드 (cuncurrent mode)
+### 컨커런트 모드 (Concurrent Mode)
 
-컨커런트 모드는 그저 서스펜스 컴포넌트를 사용하는 환경을 지칭할 뿐이다. 모든것이 서스펜스 컴포넌트가 있어야 수행될 수 있다.\
+컨커런트(Concurrent)는 번역하면 `동시에 발생하는, 동시에 수행하는` 정도로 해석된다. 즉 A라는 작업을 수행하면서 B라는 작업도 동시에 수행할 때 컨커런트 하다고 표현한다\
+리액트에서 `동시에 수행한다`는 개념은 `렌더링을 수행하면서 동시에 다른것도 수행한다`는 정도로 해석할 수 있다. 렌더링을 하면서 다른 무엇을 수행한다는 뜻인가? 유저 인풋등의 외부 입력을 받을 때 수행중인 렌더링 작업을 일시 중지하고 유저 인풋이라는 인터럽트를 받아들여 보다 유연한 렌더링 프로세스를 가능케하는 새로운 렌더링 메커니즘을 뜻한다\
+이것은 너무 포괄적인 개념이므로 실제 개발자들에게 체감상으로 와닿는 개념은 아니다. 마치 리액트 16에서 React Fiber라는 새로운 리컨사일레이션 알고리즘을 도입했음에도 개발자가 체감했던 느낌은 미비했던 것과 유사하다고도 볼 수 있다. 그러므로 컨커런트 보다는 서스펜스(Suspense)나 서버 컴포넌트 (Server Components) 등의 구체적인 개념이 훨씬 실용적으로 도움이 될 것으로 보인다
+
+##### 서스펜스 모드 (Suspense Mode)
+
+서스펜스는 번역하면 `연기하다, 유보하다`라는 뜻이다. 이를 리액트에 적용하면 `렌더링을 연기하다`정도로 이해할 수 있다\
 \
-서스펜스 컴포넌트는 컴포넌트의 지연 렌더링에 사용하는 랩퍼 컴포넌트다
+`렌더링을 연기하다`는 말은 엄밀하게 이야기하면 `특정 컴포넌트의 렌더링을 연기한다`는 뜻이다. 즉 특정 컴포넌트를 배재한 나머지 컴포넌트들을 먼저 렌더링하고 그 렌더링이 끝나면 이후에 후순위로 렌더링 하겠다는 뜻이다\
+왜 렌더링을 지연시킬까? 여러가지 이유가 있을 수 있다. 특정 컴포넌트를 렌더링하려면 데이터를 받아와야 하는데 이 데이터를 받아오는 시간동안 다른 모든 컴포넌트들이 렌더링을 대기하는 것이 비효율적이라고 생각하는 경우, 데이터를 받아오는 동안 먼저 다른 컴포넌트들을 렌더링 하는것은 속도의 관점에서 합리적이다\
+또는 상대적으로 늦게 렌더링되어도 상관없으니 다른 컴포넌트를 먼저 빠르게 렌더링 해야하는 경우에도 적용할 수 있는 기술이다\
+서스펜스 모드를 적용하는 방법은 간단하다. 서스펜스 컴포넌트를 바운더리로 랩핑하여 서스펜스 내부에서 React.Lazy 함수를 호출한다.
 
-
-##### 서스펜스(suspense) 모드 (suspense, concurrent mode, SSR Streaming)
-Concurrent features in React 18 include built-in support for server-side Suspense and SSR streaming support, allowing you to server-render pages using HTTP streaming.
 [출처](https://nextjs.org/docs/advanced-features/react-18)
-
-This also means that you can use Suspense-based data-fetching, next/dynamic, and React's built-in React.lazy with Suspense boundaries.
-
-### 서스펜스(suspense) 컴포넌트
-
-### 서스펜스리스트(SuspenseList) 컴포넌트
 
 ### Q. useTransition이란 무엇인가 ?
 
