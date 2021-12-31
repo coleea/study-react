@@ -34,7 +34,7 @@ we want to build something that gives us the conceptual simplicity)\
 -- 브라이언 커니핸 (Brian Wilson Kernighan)\
 \
 그리고 이것이 우리가 하려는 일이다\
--- Jim Sproch (ex React Core Team)\
+-- Jim Sproch (ex-React Core Team)\
 \
 이것이 리액트이다\
 즉 리액트는 변이를 최소화하고 복잡성을 제거하기 위해 태어난 UI 라이브러리 이다
@@ -183,7 +183,7 @@ A. 또 다른 답변. 리액트 화이버는 일종의 스택 프레임으로 �
 
 ### Q. 리액트 블럭 (React.block)이 무엇인가 ?
 
-A. 잠깐 거론되다가 정식으로 채택된 개념은 아닌것으로 보인다. 신경꺼도 될것 같음
+A. 잠깐 거론되다가 정식으로 채택된 개념은 아닌것으로 보인다.\
 https://github.com/facebook/react/issues/17413/ 이 링크에서 잠깐 등장한다
 
 ---
@@ -207,17 +207,64 @@ A. props에 디폴트 값을 주고 변경하고 싶은 인자만 넘겨주면 �
 
 A. 참고 : https://stackoverflow.com/questions/45981597/how-does-react-key-works
 
-### Q. 리액트에서 합성 이벤트란 무엇인가?
+### Q. 리액트에서 합성 이벤트(Synthetic Event)란 무엇인가?
 
-A. `합성`이라는 용어는 일종의 정규화 작업으로 해석할 수 있다. 합성 이벤트는 브라우저 고유 이벤트에 직접 대응되지 않으며 리액트가 지정한 이벤트를 수행한다
-https://ko.reactjs.org/docs/events.html
+A. 합성 이벤트를 이해하려면 이벤트 객체에 대한 이해가 필요하다. onclick등의 이벤트 호출시에 콜백함수가 전달받는 이벤트 객체는 브라우저 별로 약간의 차이가 있다. 이처럼 브라우저 별로 이벤트 객체가 다르면 같은 코드라고 하더라도 어떤 브라우저에서는 의도한 대로 작동하고, 다른 브라우저에서는 에러가 발생하는 문제가 생길 수 있다\
+이러한 문제를 어떻게 해결할 수 있을까? 어떤 브라우저를 사용하는지에 관계없이 항상 일정한 이벤트 객체를 사용하면 모든 브라우저에서 일관된 작동을 보장할 수 있다. `합성 이벤트`는 이러한 정규화 작업으로 해석할 수 있다. 즉 여러가지 다양한 브라우저에서 코드를 실행할 때 항상 일정한 이벤트 객체를 사용하려는 목적으로 고안되었다.\
+\
+합성 이벤트는 브라우저 고유 이벤트에 직접 대응되지 않으며 리액트가 지정한 이벤트를 수행한다.\
+onClick이벤트에 핸들러로 handleClick을 연결시켜 놓았다고 하면 코드는 아래와 같다
 
+```javascript
 
+function Component({}){
 
-### Q. 리액트에서 document.querySelector를 사용하지 말라는데 그러면 엘리먼트를 어떻게 셀렉하는가 ?
+    const handleClick = event => {
+        console.log(event)
+    }
 
-A. 함수에서 스테이트 변경을 감지하면 다음처럼 ref로 엘리먼트를 지정하여 스타일을 변경한다
-loadingRef.current.style.display = 'none' ;
+    return (
+        <div onClick={handleClick}>
+            여기를 클릭 
+        </div>
+    )
+}
+```
+위의 코드에서 `handleClick` 함수는 event 객체를 인자로 받는다.\
+\
+이 이벤트 객체의 정확한 명칭은 SyntheticBaseEvent이다. console.log로 확인해보면 다음과 같다\
+\
+![SyntheticBaseEvent 이미지](./img/event_SyntheticBaseEvent.png)
+
+`SyntheticBaseEvent`라는 객체는 웹표준이 아니며 리액트 고유의 객체다. 리액트 없이 순수하게 원래 onclick이벤트를 호출했을 때는 `SyntheticBaseEvent`객체가 아닌 다른 객체를 전달받는다. 어떤 이벤트 객체를 전달받는지 간단한 코드로 손쉽게 확인할 수 있다. 아래의 코드는 리액트를 쓰지 않은 바닐라 js 코드이다
+
+```javascript
+
+<html>
+    <div class="div">
+        클릭하면 트리거됨
+    </div>
+</html>
+
+<script>
+    const divElem = document.querySelector('.div')
+    
+    divElem.addEventListener('click', (event)=> {
+        console.log(event)
+    })
+</script>
+```
+위의 코드에서 `div`를 클릭했을 때 호출되는 콜백함수는 어떠한 객체를 전달받는지 크롬에서 console.log로 확인해보면 아래와 같다
+
+![PointerEvent 이미지](./img/event_PointerEvent.png)
+
+이 객체의 이름은 `PointerEvent`이며 맨 위에 isTrusted라는 프로퍼티가 보인다. 다른 웹브라우저에서도 이 프로퍼티가 보일까? 아래 스샷은 파이어폭스에서 console.log로 확인한 이벤트 객체이다
+
+![PointerEvent 이미지(firefox)](./img/event_firefox.png)
+
+파이어폭스의 이벤트 객체에는 isTrusted라는 프로퍼티가 보이지 않는다 (스크롤을 아래로 내려도 보이지 않는다). 이것으로 웹브라우저 별로 이벤트 객체의 프로퍼티가 상이한 것을 확인할 수 있다\
+\
+합성 이벤트를 사용하여 우리는 이런 웹브라우저간의 이벤트 불일치 문제를 해결할 수 있게 되었다
 
 ### Q. react-fetch가 무엇인가?
 
